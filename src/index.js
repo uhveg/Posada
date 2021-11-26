@@ -18,9 +18,13 @@ let jsonData = JSON.parse(rawData);
 // Routes
 app.get('/', (req, res) => {
     // for0
+    for(let i = 0;i < jsonData.length; i++) {
+        if(req.ip == jsonData[i].ip) {
+            res.render('already.html');
+            return;
+        }
+    }
     console.log("Connection from "+req.ip);
-
-
     res.render('index.html');
 });
 
