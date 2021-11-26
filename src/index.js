@@ -70,7 +70,7 @@ app.post('/newclient', (req, res) => {
 
     jsonData.push({code: myC, ip: req.ip, name: username, taked: false});
     fs.writeFileSync('data.json', JSON.stringify(jsonData));
-
+    console.log("New Participant: " + username);
     res.status(200).json({Code:myC});
         // return;
     // }, 1000);
