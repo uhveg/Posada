@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="5" /> -->
+    <title>Posada</title>
+    <style>
+        body {
+            display: flex;
+            background-color:rgb(255, 235, 205);
+        }
+        input {
+            border: 2px solid rgb(231, 213, 184);
+            background-color: white;
+            font-size: 10vw;
+            text-align: center;
+            text-justify: auto;
+            width: 100%;
+            height: 60%;
+            text-overflow:ellipsis !important;
+        }
+        /* input:active {
+            border: none !important;
+            background-color: white !important;
+        }  */
+        input:focus {
+            outline: none !important;
+            text-overflow:ellipsis !important;
+            /* background-color: tomato; */
+        }
+        
+        
+        .name-put {
+            position: absolute;
+            width: 70vw;
+            height: 30vw;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15%;
+            display: flex;
+            flex-direction: column;
+            /* border: 5px solid black; */
+        }
+        .send-bt {
+            position: absolute;
+            width: 30%;
+            height: 20%;
+            left: 35%;
+            top: 70%;
+            /* align-content: center; */
+            margin: auto;
+            border: 2px solid rgb(231, 213, 184);
+            background-color: rgb(253, 247, 220);
+            font-size:3vw;
+            justify-content: center;
+            align-content: center;
+            transition-timing-function: ease-in-out;
+            transition-duration: 0.1s;
+            /* bottom: 0; */
+            /* top: 75%; */
+        }
+        .send-bt:hover {
+            background-color: white;
+        }
+        .send-bt:active {
+            
+            transform: scale(0.9);
+        }
+        .sended {
+            transition-duration: 1s;
+            transition-timing-function: cubic-bezier(.23,.03,.5,-0.56);
+            transform: scaleX(0);
+        }
+        .not-permitted {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed black;
+            background-color: blanchedalmond;
+            top: 0;
+            left: 0;
+            transition-duration: 1s;
+            transition-timing-function: ease-in;
+            font-size:4vw;
+            /* pointer-events: none; */
+            /* cursor: not-allowed; */
+            /* opacity: 0.65; */
+            /* transition-delay: 1s; */
+        }
+        .code {
+            font-size: 4vw;
+            font-weight: bold;
+            color: brown;
+            text-align: center;
+            position: absolute;
+            top: calc(50% + 8vw);
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            display: none;
+        }
+    </style>
+    <script>
+        function sending() {
+            var inp = document.getElementById("inp");
+            var btn = document.getElementById("btn");
+            var cod = document.getElementById("cd");
+            if(inp.value.length < 3) {
+                return;
+            }
+            inp.classList.add("sended");
+            setTimeout(() => {
+                btn.classList.add("not-permitted");
+                btn.classList.remove("send-bt");
+            }, 1000);
+            var msj = "Gracias por unirte!<br>Guarda el siguiente código";
+            var i = 0;
+            btn.onclick = "";
+
+            const data = { name: inp.value};
+
+            //POST request with body equal on data in JSON format
+            fetch('/newclient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then((response) => response.json())
+            //Then with the data from the response in JSON...
+            .then((data) => {
+                console.log('Success:', data);
+                cod.innerHTML = data.Code;
+            })
+            //Then with the error genereted...
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+            setTimeout(() => {
+                btn.innerHTML = "Envia";
+                setTimeout(() => {
+                    btn.innerHTML = "Envi";
+                    setTimeout(() => {
+                        btn.innerHTML = "Envi";
+                        setTimeout(() => {
+                            btn.innerHTML = "Env";
+                            setTimeout(() => {
+                                btn.innerHTML = "En";
+                                setTimeout(() => {
+                                    btn.innerHTML = "E";
+                                    setTimeout(() => {
+                                        btn.innerHTML = "";
+                                        setTimeout(() => {
+                                            var myInt = setInterval(()=>{
+                                                var sms = msj.substring(0,i);
+                                                btn.innerHTML = sms;
+                                                if(i > msj.length) {
+                                                    clearInterval(myInt);
+                                                    cod.style.display = "block";
+
+                                                    // var xhr = new XMLHttpRequest();
+                                                    // xhr.open("POST", "/newclient", true);
+                                                    // xhr.setRequestHeader('Content-Type', 'application/json');
+
+                                                    // xhr.onreadystatechange = function (aEvt) {
+                                                    //     if (xhr.readyState == 4) {
+                                                    //         if(xhr.status == 200)
+                                                    //         dump(req.responseText);
+                                                    //         else
+                                                    //         dump("Error loading page\n");
+                                                    //     }
+                                                    // };
+
+                                                    // xhr.send(JSON.stringify({
+                                                    //     name: inp.value,
+                                                    //     code: "asdas"
+                                                    // }));
+                                                    // console.log(xhr.status);
+                                                    // if (xhr.status == 0)
+                                                    //     dump(xhr.responseText);
+                                                    // navigator.clipboard.writeText("Hello Ulises");
+                                                    // alert("Código en el portapapeles");
+                                                } else {
+                                                    i++;
+                                                    if(i == 20) {
+                                                        i = 23;
+                                                    }
+                                                }
+                                            },50);
+                                        }, 950);
+                                    }, 150);
+                                }, 150);
+                            }, 150);
+                        }, 150);
+                    }, 150);
+                }, 150);
+            }, 150);
+            
+        }
+
+        function enter() {
+            if(event.keyCode == 13) {
+                var btn = document.getElementById("btn");
+                btn.click();
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="name-put">
+        <input type="text" id="inp" placeholder="Type ur name" onkeydown="enter()">
+        <button id="btn" class="send-bt" onclick="sending()">Enviar</button>
+    </div>
+    <div id="cd" class="code">XXXXX</div>
+</body>
+</html>

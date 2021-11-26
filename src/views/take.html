@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="5" /> -->
+    <title>Posada</title>
+    <style>
+        body {
+            display: flex;
+            background-color:rgb(255, 235, 205);
+        }
+        input {
+            border: 2px solid rgb(231, 213, 184);
+            background-color: white;
+            font-size: 10vw;
+            text-align: center;
+            text-justify: auto;
+            width: 100%;
+            height: 60%;
+            text-overflow:ellipsis !important;
+            transition-timing-function: ease-in-out;
+            transition-duration: 0.3s;
+        }
+        /* input:active {
+            border: none !important;
+            background-color: white !important;
+        }  */
+        input:focus {
+            outline: none !important;
+            text-overflow:ellipsis !important;
+            /* background-color: tomato; */
+        }
+        
+        
+        .name-put {
+            position: absolute;
+            width: 70vw;
+            height: 30vw;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15%;
+            display: flex;
+            flex-direction: column;
+            /* border: 5px solid black; */
+        }
+        .send-bt {
+            position: absolute;
+            width: 30%;
+            height: 20%;
+            left: 35%;
+            top: 70%;
+            /* align-content: center; */
+            margin: auto;
+            border: 2px solid rgb(231, 213, 184);
+            background-color: rgb(253, 247, 220);
+            font-size:3vw;
+            justify-content: center;
+            align-content: center;
+            transition-timing-function: ease-in-out;
+            transition-duration: 0.1s;
+            /* bottom: 0; */
+            /* top: 75%; */
+        }
+        .send-bt:hover {
+            background-color: white;
+        }
+        .send-bt:active {
+            
+            transform: scale(0.9);
+        }
+        .sended {
+            transition-duration: 1s;
+            transition-timing-function: cubic-bezier(.23,.03,.5,-0.56);
+            transform: scaleX(0);
+        }
+        .not-permitted {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed black;
+            background-color: blanchedalmond;
+            top: 0;
+            left: 0;
+            transition-duration: 1s;
+            transition-timing-function: ease-in;
+            font-size:4vw;
+            /* pointer-events: none; */
+            /* cursor: not-allowed; */
+            /* opacity: 0.65; */
+            /* transition-delay: 1s; */
+        }
+        .wrong {
+            border-color: red;
+            transition-timing-function: ease-in-out;
+            transition-duration: 0.3s;
+        }
+        .good {
+            transition-timing-function: ease-in-out;
+            transition-duration: 5s;
+            transform: rotate(36000deg);
+        }
+    </style>
+    <script>
+        function sending() {
+            var inp = document.getElementById("inp");
+            var btn = document.getElementById("btn");
+            if(inp.value.length != 5) {
+                inp.classList.add('wrong');
+                setTimeout(() => {
+                    inp.classList.remove("wrong");
+                }, 1000);
+                return;
+            }
+            
+            // inp.classList.add("sended");
+            // setTimeout(() => {
+            //     btn.classList.add("not-permitted");
+            //     btn.classList.remove("send-bt");
+            // }, 1000);
+            // var msj = "Gracias por unirte!<br>Guarda el siguiente código";
+            // var i = 0;
+            // btn.onclick = "";
+
+            const data = { code: inp.value};
+
+            //POST request with body equal on data in JSON format
+            fetch('/verclient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then((response) => response.json())
+            //Then with the data from the response in JSON...
+            .then((data) => {
+                console.log('Success:', data);
+                if(data.isValid) {
+                    btn.style.display = 'none';
+                    inp.classList.add('good');
+                    setTimeout(()=>{
+                        inp.value = data.name;
+                        inp.disabled = true;
+                    },4800);
+                } else {
+                    inp.classList.add('wrong');
+                setTimeout(() => {
+                    inp.classList.remove("wrong");
+                }, 1000);
+                }
+            })
+            //Then with the error genereted...
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+        
+        function enter() {
+            if(event.keyCode == 13) {
+                var btn = document.getElementById("btn");
+                btn.click();
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="name-put">
+        <input type="text" id="inp" placeholder="Type ur code" onkeydown="enter()">
+        <button id="btn" class="send-bt" onclick="sending()">Tomar</button>
+    </div>
+    <!-- <div id="cd" class="code">XXXXX</div> -->
+</body>
+</html>

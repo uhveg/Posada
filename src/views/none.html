@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="refresh" content="5" /> -->
+    <title>Posada</title>
+    <style>
+        body {
+            display: flex;
+            background-color:rgb(255, 235, 205);
+        }
+        input {
+            border: 2px solid rgb(231, 213, 184);
+            background-color: white;
+            font-size: 10vw;
+            text-align: center;
+            text-justify: auto;
+            width: 100%;
+            height: 60%;
+            text-overflow:ellipsis !important;
+        }
+        /* input:active {
+            border: none !important;
+            background-color: white !important;
+        }  */
+        input:focus {
+            outline: none !important;
+            text-overflow:ellipsis !important;
+            /* background-color: tomato; */
+        }
+        
+        
+        .name-put {
+            position: absolute;
+            width: 70vw;
+            height: 30vw;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15%;
+            display: flex;
+            flex-direction: column;
+            /* border: 5px solid black; */
+        }
+        .send-bt {
+            position: absolute;
+            width: 30%;
+            height: 20%;
+            left: 35%;
+            top: 70%;
+            /* align-content: center; */
+            margin: auto;
+            border: 2px solid rgb(231, 213, 184);
+            background-color: rgb(253, 247, 220);
+            font-size:3vw;
+            justify-content: center;
+            align-content: center;
+            transition-timing-function: ease-in-out;
+            transition-duration: 0.1s;
+            /* bottom: 0; */
+            /* top: 75%; */
+        }
+        .send-bt:hover {
+            background-color: white;
+        }
+        .send-bt:active {
+            
+            transform: scale(0.9);
+        }
+        .sended {
+            transition-duration: 1s;
+            transition-timing-function: cubic-bezier(.23,.03,.5,-0.56);
+            transform: scaleX(0);
+        }
+        .not-permitted {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed black;
+            background-color: blanchedalmond;
+            top: 0;
+            left: 0;
+            transition-duration: 1s;
+            transition-timing-function: ease-in;
+            font-size:4vw;
+            /* pointer-events: none; */
+            /* cursor: not-allowed; */
+            /* opacity: 0.65; */
+            /* transition-delay: 1s; */
+        }
+        .code {
+            font-size: 4vw;
+            font-weight: bold;
+            color: brown;
+            text-align: center;
+            position: absolute;
+            top: calc(50% + 8vw);
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            display: none;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="name-put">
+        <!-- <input type="text" id="inp"> -->
+        <button id="btn" class="not-permitted" onclick="">No hay más papelitos registrados</button>
+    </div>
+</body>
+</html>
